@@ -1,0 +1,12 @@
+{
+    "1": {
+        "amount": 189.0,
+        "payment_method": "creditCard",
+        "status": "REGISTRADO"
+    },
+    "2": {
+        "amount": 200.0,
+        "payment_method": "paypal",
+        "status": "PAGADO"
+    }
+}
