@@ -1,24 +1,29 @@
 import unittest
-from app import add, subtract, multiply
+from main import create_payment, update_payment, pay_payment, revert_payment, STATUS_REGISTRADO, STATUS_FALLIDO, STATUS_PAGADO
+import asyncio
 
 
 class TestApp(unittest.TestCase):
 
-    def test_add(self):
-        self.assertEqual(add(1, 2), 3)
-        self.assertEqual(add(-1, 1), 0)
-        self.assertEqual(add(-1, -1), -2)
+    def test_create_payment(self):
+        
+        response = asyncio.run(create_payment("test1", 100.0, "creditCard"))
+        print(response)
+        self.assertEqual(f"Pago test1 registrado con estado {STATUS_REGISTRADO}", response["message"])
 
-    def test_subtract(self):
-        self.assertEqual(subtract(5, 3), 2)
-        self.assertEqual(subtract(3, 5), -2)
-        self.assertEqual(subtract(10, 0), 10)
+    def test_update_payment(self):
+        response = asyncio.run(update_payment("test1", amount=150.0))
+        print(response)
+        self.assertEqual(f"Pago test1 actualizado", response["message"])
 
-    def test_multiply(self):
-        self.assertEqual(multiply(2, 3), 6)
-        self.assertEqual(multiply(-1, 5), -5)
-        self.assertEqual(multiply(0, 10), 0)
+    # def test_pay_payment(self):
+    #     response = asyncio.run(pay_payment("test1"))
+    #     print(response)
+    #     self.assertEqual(f"Pago test1 procesado", response["message"])
 
+    # def test_revert_payment(self):
+    #     response = asyncio.run(revert_payment("test1"))
+    #     self.assertEqual(f"Pago test1 revertido", response["message"])
 
 if __name__ == "__main__":
     unittest.main()

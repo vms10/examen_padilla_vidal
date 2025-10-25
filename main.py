@@ -49,6 +49,7 @@ def save_payment(payment_id, amount, payment_method, status):
     save_payment_data(payment_id, data)
 
 
+
 # Probando la api
 @app.get("/")
 async def prueba_root():
@@ -83,7 +84,7 @@ async def update_payment(payment_id: str, amount: float = None, payment_method: 
             data[STATUS] = status
 
         save_payment_data(payment_id, data)
-        return {"message": f"Pago {payment_id} actualizado", "data": data}
+        return {"message": f"Pago {payment_id} actualizado"}
     else:
         return {"error": f"Pago {payment_id} no puede ser actualizado"}
 
@@ -92,13 +93,30 @@ async def update_payment(payment_id: str, amount: float = None, payment_method: 
 async def pay_payment(payment_id: str):
     data = load_payment(payment_id)
 
-    # if data is None:
-    #     return {"error": f"Pago {payment_id} no encontrado"}
-
     if data[STATUS] == STATUS_REGISTRADO:
-        data[STATUS] = STATUS_PAGADO
-        save_payment_data(payment_id, data)
-        return {"message": f"Pago {payment_id} procesado", "data": data}
+        if (data[PAYMENT_METHOD] == "paypal" and data[AMOUNT] < 5000):
+            data[STATUS] = STATUS_PAGADO
+            save_payment_data(payment_id, data)
+            return {"message": f"Pago {payment_id} procesado"}
+
+        if (data[PAYMENT_METHOD] == "creditCard" and data[AMOUNT] < 10000):
+            all_data = load_all_payments()
+            q = sum(1 for payment in all_data.values() if payment[PAYMENT_METHOD] == "creditCard" and payment[STATUS] == STATUS_REGISTRADO)
+        
+            if q < 2:
+                data[STATUS] = STATUS_PAGADO
+                save_payment_data(payment_id, data)
+                return {"message": f"Pago {payment_id} procesado"}
+            else:
+                data[STATUS] = STATUS_FALLIDO
+                save_payment_data(payment_id, data)
+                return {"message": f"Pago {payment_id} fallido por limite de pagos con tarjeta de crédito"}
+        
+        else:
+            data[STATUS] = STATUS_FALLIDO
+            save_payment_data(payment_id, data)
+            return {"message": f"Pago {payment_id} fallido por excede el monto permitido"}
+        
     else:
         return {"error": f"Pago {payment_id} no puede ser procesado"}
     
@@ -114,6 +132,6 @@ async def revert_payment(payment_id: str):
     if data[STATUS] == STATUS_FALLIDO:
         data[STATUS] = STATUS_REGISTRADO
         save_payment_data(payment_id, data)
-        return {"message": f"Pago {payment_id} revertido", "data": data}
+        return {"message": f"Pago {payment_id} revertido"}
     else:
         return {"error": f"Pago {payment_id} no puede ser revertido"}
