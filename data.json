@@ -10,17 +10,22 @@
         "status": "PAGADO"
     },
     "1000": {
-        "amount": 100.0,
-        "payment_method": "creditCard",
-        "status": "REGISTRADO"
+        "amount": 67.0,
+        "payment_method": "creditcard",
+        "status": "registrado"
     },
     "test1": {
         "amount": 150.0,
         "payment_method": "creditCard",
-        "status": "REGISTRADO"
+        "status": "PAGADO"
     },
     "30": {
         "amount": 100000.0,
+        "payment_method": "creditCard",
+        "status": "REGISTRADO"
+    },
+    "15": {
+        "amount": 34.0,
         "payment_method": "creditCard",
         "status": "FALLIDO"
     }

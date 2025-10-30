@@ -13,10 +13,6 @@ DATA_PATH = "data.json"
 
 app = FastAPI()
 
-# @app.get("/")
-# @app.post("/CrearArchivo/")
-# @app.get("/LeerArchivo/{file_name}")
-
 
 def load_all_payments():
     with open(DATA_PATH, "r") as f:
@@ -49,31 +45,46 @@ def save_payment(payment_id, amount, payment_method, status):
     save_payment_data(payment_id, data)
 
 
-
-# Probando la api
-@app.get("/")
-async def prueba_root():
-    return {"message": "Accediste al endpoint de prueba"}
-
 # GET en el path /payments que retorne todos los pagos.
 @app.get("/payments")
 async def get_all_payments():
     data = {"data": load_all_payments()}
     return data
 
+
 # POST en el path /payments/{payment_id} que registre un nuevo pago.
 @app.post("/payments/{payment_id}")
 async def create_payment(payment_id: str, amount: float, payment_method: str):
+    # ---  Validar argumentos ---
+    if amount is None or amount <= 0:
+        return {"message": "El monto debe ser un número positivo."}
+    if not payment_method:
+        return {"message": "Debe especificarse el método de pago."}
+    if not payment_id:
+        return {"message": "Debe especificarse el payment_id."}
+
+    # ---  Validar duplicado ---
+    all_data = load_all_payments()
+    if str(payment_id) in all_data:
+        return {"message": f"El pago {payment_id} ya existe."}
+
+    # --- Registrar el pago ---
     save_payment(payment_id, amount, payment_method, STATUS_REGISTRADO)
-    return {"message": f"Pago {payment_id} registrado con estado {STATUS_REGISTRADO}"}
+    return {"message": f"Pago {payment_id} registrado con exito"}
+
+
+
 
 # POST en el path /payments/{payment_id}/update que cambie los parametros de una pago (amount, payment_method)
 @app.post("/payments/{payment_id}/update")
 async def update_payment(payment_id: str, amount: float = None, payment_method: str = None, status: str = None):
-    data = load_payment(payment_id)
+    all_data = load_all_payments()
 
-    # if data is None:
-    #     return {"error": f"Pago {payment_id} no encontrado"}
+    # Verificamos si existe el payment_id
+    if payment_id not in all_data:
+        return {"error": f"Pago {payment_id} no encontrado"}
+
+    data = load_payment(payment_id)
 
     if data[STATUS] == STATUS_REGISTRADO:
         if amount is not None:
@@ -88,9 +99,16 @@ async def update_payment(payment_id: str, amount: float = None, payment_method: 
     else:
         return {"error": f"Pago {payment_id} no puede ser actualizado"}
 
+
 # POST en el path /payments/{payment_id}/pay que intente.
 @app.post("/payments/{payment_id}/pay")
 async def pay_payment(payment_id: str):
+    all_data = load_all_payments()
+
+    # Verificamos si existe el payment_id
+    if payment_id not in all_data:
+        return {"error": f"Pago {payment_id} no encontrado"}
+
     data = load_payment(payment_id)
 
     if data[STATUS] == STATUS_REGISTRADO:
@@ -100,7 +118,6 @@ async def pay_payment(payment_id: str):
             return {"message": f"Pago {payment_id} procesado"}
 
         if (data[PAYMENT_METHOD] == "creditCard" and data[AMOUNT] < 10000):
-            all_data = load_all_payments()
             q = sum(1 for payment in all_data.values() if payment[PAYMENT_METHOD] == "creditCard" and payment[STATUS] == STATUS_REGISTRADO)
         
             if q < 2:
@@ -124,10 +141,14 @@ async def pay_payment(payment_id: str):
 # POST en el path /payments/{payment_id}/revert que revertir el pago.
 @app.post("/payments/{payment_id}/revert")
 async def revert_payment(payment_id: str):
-    data = load_payment(payment_id)
+    
+    all_data = load_all_payments()
 
-    # if data is None:
-    #     return {"error": f"Pago {payment_id} no encontrado"}
+    # Verificamos si existe el payment_id
+    if payment_id not in all_data:
+        return {"error": f"Pago {payment_id} no encontrado"}
+    
+    data = load_payment(payment_id)
 
     if data[STATUS] == STATUS_FALLIDO:
         data[STATUS] = STATUS_REGISTRADO

@@ -1,32 +1,46 @@
-## Levantamos el servidor con el comando  
+# 💳 API de Pagos - FastAPI
 
-`fastapi dev main.py` 
+Proyecto desarrollado con **FastAPI** que permite crear, procesar, actualizar y revertir pagos.  
+Incluye endpoints REST, tests automatizados y despliegue en Render.
 
-## Si lo probas localmente: url + nombre del endpoint (hola)
-`http://127.0.0.1:8000/hola`
-Ahi te devuelve el mensaje
+---
+
+## ⚙️ Set-up del entorno virtual
+
+```bash
+# Crear entorno virtual
+python -m venv env
+
+# Activar entorno virtual (Windows)
+.\env\Scripts\activate
+
+# Instalar dependencias
+pip install -r requirements.txt
+```
+
+# 🚀 Levantar el servidor localmente
+```bash
+fastapi dev main.py
+```
+
+Una vez iniciado, podés acceder a:
+
+🌐 Servidor: http://127.0.0.1:8000
+
+📘 Documentación interactiva: http://127.0.0.1:8000/docs
+
+🧪 Ejecutar los tests
+
+python -m unittest test_app.py
+
+📦 Generar el archivo requirements.txt
+
+pip list
+pip freeze > requirements.txt
 
 
-## Desde un google si pones:
-`http://127.0.0.1:8000/payments`
+☁️ Despliegue en Render
+
+🔗 https://apifast-m5ay.onrender.com
 
 
-
-
-Te devuelve el contenido de ese archivo
-
-
-## Desde la terminar en Windows el comando es: 
-`curl.exe -X GET "http://127.0.0.1:8000/files"`
-
-`curl.exe -X 'GET' 'http://127.0.0.1:8000/files/prueba45.txt'`
-
-`curl.exe -X 'POST' 'http://127.0.0.1:8000/files' -H 'Content-Type: application/json' -d '{"name": "test.txt", "content": "Este es un archivo de prueba"}' `
-
-## Para crear el requirements.txt
-`pip list`
-
-`pip freeze > requirements.txt`
-
- ## Para la parte de render logré deployear en:
- https://apifast-m5ay.onrender.com
