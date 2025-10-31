@@ -1,3 +1,22 @@
 {
-    
+    "1000": {
+        "amount": 250.0,
+        "payment_method": "credit_card",
+        "status": "REGISTRADO"
+    },
+    "2000": {
+        "amount": 45000.0,
+        "payment_method": "paypal",
+        "status": "REGISTRADO"
+    },
+    "3000": {
+        "amount": 300.0,
+        "payment_method": "paypal",
+        "status": "PAGADO"
+    },
+    "1": {
+        "amount": 202.0,
+        "payment_method": "paypal",
+        "status": "PAGADO"
+    }
 }

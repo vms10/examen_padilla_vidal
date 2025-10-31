@@ -19,9 +19,9 @@ def save_all_payments(data):
 
 
 def load_payment(payment_id):
-    data = load_all_payments()[payment_id]
-    return data
-
+    data = load_all_payments()
+    if data.get(payment_id):
+        return data[payment_id]
 
 def save_payment_data(payment_id, data):
     all_data = load_all_payments()
