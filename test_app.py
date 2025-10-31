@@ -1,10 +1,15 @@
+import tempfile
+import os
+import json
+import main
+
+
 import unittest
 import asyncio
 from routers.payments_router import get_all_payments, create_payment, update_payment, pay_payment, revert_payment, STATUS_REGISTRADO, STATUS_FALLIDO, STATUS_PAGADO
 
 
 class TestApp(unittest.TestCase):
-
 
     # 1. Test creación de un pago #1000
     def test_create_payment_01(self):
@@ -73,8 +78,23 @@ class TestApp(unittest.TestCase):
 if __name__ == "__main__":
     # 0. Setup inicial: limpiar el archivo data.json
     def setUp(self):
-        with open("data.json", "w") as f:
-            f.write("{}")
-            f.close()
+        # Crear un archivo temporal y cerrarlo inmediatamente
+        fd, path = tempfile.mkstemp()
+        os.close(fd)  
+        self.tempfile = path
+
+        # Inicializar con un JSON vacío
+        with open(self.tempfile, "w") as f:
+            json.dump({}, f)
+
+        main.DATA_PATH = self.tempfile 
+
+    def tearDown(self):
+        # Borrar el archivo temporal al finalizar
+        if os.path.exists(self.tempfile):
+            os.remove(self.tempfile)
+
+
+
 
     unittest.main()

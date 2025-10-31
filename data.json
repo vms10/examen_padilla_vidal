@@ -18,5 +18,15 @@
         "amount": 202.0,
         "payment_method": "paypal",
         "status": "PAGADO"
+    },
+    "2": {
+        "amount": 202.0,
+        "payment_method": "paypal",
+        "status": "PAGADO"
+    },
+    "3": {
+        "amount": 202.0,
+        "payment_method": "paypal",
+        "status": "PAGADO"
     }
 }
