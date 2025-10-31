@@ -1,1 +1,4 @@
 \env
+# ignorar carpeta y contenido de todos los __pycache__
+__pycache__/
+*/__pycache__/

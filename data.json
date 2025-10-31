@@ -1,27 +1,32 @@
 {
-    "1": {
-        "amount": 189.0,
-        "payment_method": "creditCard",
-        "status": "pagado"
+    "1000": {
+        "amount": 250.0,
+        "payment_method": "credit_card",
+        "status": "REGISTRADO"
     },
-    "2": {
-        "amount": 200.0,
+    "2000": {
+        "amount": 45000.0,
+        "payment_method": "paypal",
+        "status": "REGISTRADO"
+    },
+    "3000": {
+        "amount": 300.0,
         "payment_method": "paypal",
         "status": "PAGADO"
     },
-    "1000": {
-        "amount": 100.0,
-        "payment_method": "creditCard",
-        "status": "REGISTRADO"
+    "1": {
+        "amount": 202.0,
+        "payment_method": "paypal",
+        "status": "PAGADO"
     },
-    "test1": {
-        "amount": 150.0,
-        "payment_method": "creditCard",
-        "status": "REGISTRADO"
+    "2": {
+        "amount": 202.0,
+        "payment_method": "paypal",
+        "status": "PAGADO"
     },
-    "30": {
-        "amount": 100000.0,
-        "payment_method": "creditCard",
-        "status": "FALLIDO"
+    "3": {
+        "amount": 202.0,
+        "payment_method": "paypal",
+        "status": "PAGADO"
     }
 }
