@@ -52,3 +52,13 @@ pip freeze > requirements.txt
 # ☁️ Despliegue en Render
 
 🔗 https://examen-padilla-vidal.onrender.com/
+
+Probamos con Postman el método GET y el POST para pagar (método pay)
+![WhatsApp Image 2025-10-31 at 14 24 28](https://github.com/user-attachments/assets/0b253897-199a-419e-be24-ac55407e2941)
+
+![WhatsApp Image 2025-10-31 at 14 24 45](https://github.com/user-attachments/assets/8b0dabd5-d388-4404-9263-48b54ab86b25)
+
+
+
+
+
